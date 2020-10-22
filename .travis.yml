@@ -11,6 +11,16 @@ jdk:
 - oraclejdk8
 script:
 - ./gradlew test
+# Download the latest version of WhiteSource FS Agent
+- curl -LJO https://github.com/whitesource/fs-agent-distribution/raw/master/standAlone/whitesource-fs-agent.jar
+# Download the default configuration file
+- curl -LJO https://github.com/whitesource/fs-agent-distribution/raw/master/standAlone/whitesource-fs-agent.config
+# Replace the flags in the configuration to enable policy check
+- cat whitesource-fs-agent.config | sed -e "s/checkPolicies=false/checkPolicies=true/; s/forceCheckAllDependencies=false/forceCheckAllDependencies=true/" > temp_file.config
+# Copy the new configuration file over the original file
+- mv temp_file.config whitesource-fs-agent.config
+# Run WhiteSource FS Agent
+- java -jar whitesource-fs-agent.jar -apiKey $apiKey -c whitesource-fs-agent.config -d ~/ -project architecture-samples
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
