@@ -20,7 +20,7 @@ script:
 # Copy the new configuration file over the original file
 - mv temp_file.config whitesource-fs-agent.config
 # Run WhiteSource FS Agent
-- java -jar whitesource-fs-agent.jar -apiKey $apiKey -c whitesource-fs-agent.config -d ~/ -project architecture-samples
+- java -jar whitesource-fs-agent.jar -apiKey $apiKey -c whitesource-fs-agent.config -d ~/ -product mytest -project architecture-samples
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
